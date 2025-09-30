@@ -1,4 +1,3 @@
-/*
 // client/src/components/VideoUpload.js - ENHANCED VERSION
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -764,8 +763,8 @@ const VideoUpload = ({ onVideoUploaded }) => {
 };
 
 export default VideoUpload;
-*/
 
+/*
 //deepseek
 // client/src/components/VideoUpload.js - FIXED VERSION
 import React, { useState, useEffect } from 'react';
@@ -1083,7 +1082,7 @@ const VideoUpload = ({ onVideoUploaded }) => {
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
       
-      {/* Upload Type Selection */}
+      // Upload Type Selection
       <div style={{ 
         marginBottom: '30px', 
         backgroundColor: '#f8f9fa', 
@@ -1150,7 +1149,7 @@ const VideoUpload = ({ onVideoUploaded }) => {
         </div>
       </div>
 
-      {/* Message Display */}
+      // Message Display
       {message && (
         <div style={{ 
           padding: '15px', 
@@ -1164,7 +1163,7 @@ const VideoUpload = ({ onVideoUploaded }) => {
         </div>
       )}
 
-      {/* Upload Progress */}
+      //* Upload Progress
       {loading && (
         <div style={{ 
           marginBottom: '20px',
@@ -1200,7 +1199,7 @@ const VideoUpload = ({ onVideoUploaded }) => {
         </div>
       )}
 
-      {/* INDIVIDUAL VIDEO UPLOAD FORM */}
+      //* INDIVIDUAL VIDEO UPLOAD FORM
       {uploadType === 'individual' && (
         <form id="video-upload-form" onSubmit={uploadSingleVideo}>
           <div style={{ 
@@ -1338,10 +1337,10 @@ const VideoUpload = ({ onVideoUploaded }) => {
         </form>
       )}
 
-      {/* MODULE VIDEO UPLOAD FORM */}
+      //{/* MODULE VIDEO UPLOAD FORM 
       {uploadType === 'module' && (
         <div>
-          {/* Module Selection */}
+          //{/* Module Selection 
           <div style={{ 
             backgroundColor: 'white', 
             padding: '25px', 
@@ -1410,10 +1409,10 @@ const VideoUpload = ({ onVideoUploaded }) => {
             )}
           </div>
 
-          {/* Video Upload Options */}
+          // Video Upload Options
           {selectedModule && (
             <>
-              {/* Single Video to Module */}
+              //* Single Video to Module
               <form id="video-upload-form" onSubmit={uploadSingleVideo} style={{ marginBottom: '30px' }}>
                 <div style={{ 
                   backgroundColor: 'white', 
@@ -1512,7 +1511,7 @@ const VideoUpload = ({ onVideoUploaded }) => {
                 </div>
               </form>
 
-              {/* Multiple Videos to Module */}
+              //* Multiple Videos to Module
               <form id="multiple-video-upload-form" onSubmit={uploadMultipleVideos}>
                 <div style={{ 
                   backgroundColor: 'white', 
@@ -1635,3 +1634,4 @@ const VideoUpload = ({ onVideoUploaded }) => {
 };
 
 export default VideoUpload;
+*/
