@@ -41,7 +41,8 @@ const Chat = ({ user }) => {
 
   // Initialize socket connection
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    //const newSocket = io('http://localhost:5000');
+    const newSocket = io(process.env.REACT_APP_API_URL);
     setSocket(newSocket);
 
     // Join user's room
