@@ -39,7 +39,6 @@ const videoSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Video', videoSchema);
 */
-
 const mongoose = require('mongoose');
 
 const videoSchema = new mongoose.Schema({
@@ -52,8 +51,9 @@ const videoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  videoUrl: {  // ADD THIS FIELD - Full URL to access the video
-    type: String
+  videoUrl: {
+    type: String,
+    required: true
   },
   duration: {
     type: Number, // Duration in seconds
@@ -79,5 +79,10 @@ const videoSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
+
+// Add index for better performance
+videoSchema.index({ uploadedBy: 1 });
+videoSchema.index({ assignedTo: 1 });
+videoSchema.index({ modules: 1 });
 
 module.exports = mongoose.model('Video', videoSchema);

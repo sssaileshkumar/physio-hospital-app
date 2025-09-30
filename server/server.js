@@ -143,6 +143,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 const Message = require('./models/Message');
 
@@ -153,7 +155,7 @@ const server = http.createServer(app);
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://physio-frontend.onrender.com" // YOUR ACTUAL FRONTEND URL
+    "https://physio-frontend.onrender.com"
   ],
   credentials: true
 }));
@@ -163,7 +165,7 @@ const io = socketIo(server, {
   cors: {
     origin: [
       "http://localhost:3000",
-      "https://physio-frontend.onrender.com" // YOUR ACTUAL FRONTEND URL
+      "https://physio-frontend.onrender.com"
     ],
     methods: ["GET", "POST"],
     credentials: true
@@ -171,7 +173,8 @@ const io = socketIo(server, {
 });
 
 app.use(express.json());
-// In your server.js, replace the static file serving:
+
+// Serve static files with proper MIME types and CORS - FIXED
 app.use('/uploads', express.static('uploads', {
   setHeaders: (res, filePath) => {
     // Set proper MIME types for videos
@@ -181,12 +184,25 @@ app.use('/uploads', express.static('uploads', {
       res.setHeader('Content-Type', 'video/webm');
     } else if (filePath.endsWith('.ogg')) {
       res.setHeader('Content-Type', 'video/ogg');
+    } else if (filePath.endsWith('.mov')) {
+      res.setHeader('Content-Type', 'video/quicktime');
+    } else if (filePath.endsWith('.avi')) {
+      res.setHeader('Content-Type', 'video/x-msvideo');
     }
+    
     // Allow CORS for all origins (important for browser extensions)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   }
 }));
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('Created uploads directory');
+}
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/physio-app', {
@@ -200,7 +216,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/physio-ap
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Physio Backend Server is running!',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    uploadsDirectory: fs.existsSync(uploadsDir) ? 'Exists' : 'Missing'
   });
 });
 
@@ -300,7 +317,7 @@ io.on('connection', (socket) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Error stack:', err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
@@ -310,4 +327,4 @@ process.on('unhandledRejection', (err, promise) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
