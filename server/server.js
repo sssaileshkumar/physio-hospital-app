@@ -171,7 +171,22 @@ const io = socketIo(server, {
 });
 
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+// In your server.js, replace the static file serving:
+app.use('/uploads', express.static('uploads', {
+  setHeaders: (res, filePath) => {
+    // Set proper MIME types for videos
+    if (filePath.endsWith('.mp4')) {
+      res.setHeader('Content-Type', 'video/mp4');
+    } else if (filePath.endsWith('.webm')) {
+      res.setHeader('Content-Type', 'video/webm');
+    } else if (filePath.endsWith('.ogg')) {
+      res.setHeader('Content-Type', 'video/ogg');
+    }
+    // Allow CORS for all origins (important for browser extensions)
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD');
+  }
+}));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/physio-app', {

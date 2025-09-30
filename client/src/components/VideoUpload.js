@@ -643,7 +643,6 @@ const VideoUpload = ({ onVideoUploaded }) => {
                 </div>
               </form>
 
-              // Multiple Videos to Module
               <form id="multiple-video-upload-form" onSubmit={uploadMultipleVideos}>
                 <div style={{ 
                   backgroundColor: 'white', 
