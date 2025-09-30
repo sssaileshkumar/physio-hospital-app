@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard';
 import './App.css';
 
 // Set default axios base URL
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL ;
 
 function App() {
   const [user, setUser] = useState(null);
