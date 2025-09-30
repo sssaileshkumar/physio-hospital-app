@@ -100,7 +100,7 @@ router.get('/chat-users', auth, async (req, res) => {
 module.exports = router;
 */
 
-//deepseek
+/*
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -208,6 +208,224 @@ router.post('/upload', auth, upload.single('video'), async (req, res) => {
   }
 });
 
+// Get videos for current user
+router.get('/my-videos', auth, async (req, res) => {
+  try {
+    let videos;
+    if (req.user.role === 'admin') {
+      videos = await Video.find({ uploadedBy: req.user.userId })
+        .populate('assignedTo', 'name email')
+        .populate('uploadedBy', 'name');
+    } else {
+      videos = await Video.find({ assignedTo: req.user.userId })
+        .populate('uploadedBy', 'name');
+    }
+    
+    // Ensure all videos have correct videoUrl
+    const videosWithUrls = videos.map(video => {
+      if (!video.videoUrl || video.videoUrl.includes('localhost')) {
+        video.videoUrl = `https://physio-backend.onrender.com/uploads/${video.filename}`;
+      }
+      return video;
+    });
+    
+    res.json(videosWithUrls);
+  } catch (error) {
+    console.error('Error fetching videos:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all patients (admin only)
+router.get('/patients', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    
+    const patients = await User.find({ role: 'patient' }).select('_id name email');
+    res.json(patients);
+  } catch (error) {
+    console.error('Error fetching patients:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get admin user (for patients to chat with)
+router.get('/admin', auth, async (req, res) => {
+  try {
+    const admin = await User.findOne({ role: 'admin' }).select('_id name email');
+    if (!admin) {
+      return res.status(404).json({ message: 'No admin found' });
+    }
+    res.json(admin);
+  } catch (error) {
+    console.error('Error fetching admin:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all users for admin (to see who they can chat with)
+router.get('/chat-users', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    
+    const users = await User.find({ role: 'patient' }).select('_id name email');
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching chat users:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Fix video URLs for existing videos
+router.get('/fix-video-urls', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    
+    const videos = await Video.find();
+    let fixedCount = 0;
+    
+    for (let video of videos) {
+      // Fix any localhost URLs to use the deployed URL
+      if (video.videoUrl && video.videoUrl.includes('localhost')) {
+        video.videoUrl = `https://physio-backend.onrender.com/uploads/${video.filename}`;
+        await video.save();
+        fixedCount++;
+      } else if (!video.videoUrl) {
+        video.videoUrl = `https://physio-backend.onrender.com/uploads/${video.filename}`;
+        await video.save();
+        fixedCount++;
+      }
+    }
+    
+    res.json({ 
+      message: `Fixed ${fixedCount} video URLs`,
+      totalVideos: videos.length,
+      fixedCount: fixedCount
+    });
+  } catch (error) {
+    console.error('Error fixing video URLs:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Test if a video file exists
+router.get('/test/:filename', async (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const videoPath = path.join(__dirname, '../uploads', filename);
+    
+    // Check if file exists
+    if (!fs.existsSync(videoPath)) {
+      return res.status(404).json({ 
+        message: 'Video file not found on server',
+        filename: filename,
+        accessible: false
+      });
+    }
+    
+    // Get file stats
+    const stats = fs.statSync(videoPath);
+    
+    res.json({
+      filename: filename,
+      url: `https://physio-backend.onrender.com/uploads/${filename}`,
+      accessible: true,
+      fileSize: stats.size,
+      message: 'Video is accessible'
+    });
+  } catch (error) {
+    console.error('Error testing video:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+module.exports = router;
+*/
+
+
+const express = require('express');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const Video = require('../models/Video');
+const User = require('../models/User');
+const auth = require('../middleware/auth');
+const router = express.Router();
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Configure Cloudinary storage for Multer
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'physio-videos',
+    resource_type: 'video',
+    allowed_formats: ['mp4', 'mov', 'avi', 'mkv'],
+    transformation: [{ quality: 'auto' }]
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 100 * 1024 * 1024 // 100MB limit
+  }
+});
+
+// Upload video (admin only)
+router.post('/upload', auth, upload.single('video'), async (req, res) => {
+  try {
+    console.log('Video upload request:', req.body);
+    
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    
+    if (!req.file) {
+      return res.status(400).json({ message: 'No video file uploaded' });
+    }
+
+    const { title, description, assignedTo } = req.body;
+    let assignedUsers = [];
+    
+    try {
+      assignedUsers = assignedTo ? JSON.parse(assignedTo) : [];
+    } catch (parseError) {
+      console.log('Error parsing assignedTo, using empty array');
+      assignedUsers = [];
+    }
+    
+    const video = new Video({
+      title,
+      description: description || '',
+      filename: req.file.path, // Cloudinary URL
+      assignedTo: assignedUsers,
+      uploadedBy: req.user.userId,
+      modules: []
+    });
+    
+    const savedVideo = await video.save();
+    console.log('Video uploaded successfully:', savedVideo._id);
+    
+    res.status(201).json(savedVideo);
+  } catch (error) {
+    console.error('Error uploading video:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Rest of your routes stay the same...
 // Get videos for current user
 router.get('/my-videos', auth, async (req, res) => {
   try {

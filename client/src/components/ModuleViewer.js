@@ -189,22 +189,16 @@ const ModuleViewer = ({ user }) => {
 
               <video
                 controls
-                style={{
-                  width: '100%',
-                  maxHeight: '400px',
-                  borderRadius: '8px',
-                  marginBottom: '20px'
-                }}
+                style={{ width: '100%', maxHeight: '400px', borderRadius: '8px', marginBottom: '20px' }}
                 onEnded={() => {
                   if (!isCurrentVideoCompleted) {
                     markVideoComplete(currentVideo._id);
                   }
                 }}
               >
-                <source src={`${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${currentVideo?.filename}`} type="video/mp4" />
+                <source src={currentVideo?.filename} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-
               {/* Video Controls */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', gap: '10px' }}>

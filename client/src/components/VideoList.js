@@ -87,17 +87,9 @@ const VideoList = ({ videos, user }) => {
                 )}
 
                 {/* Video player */}
-                <video
-                  controls
-                  style={{
-                    width: '100%',
-                    maxWidth: '500px',
-                    height: 'auto',
-                    borderRadius: '4px'
-                  }}
-                >
-                  <source src={`${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${video.filename}`} type="video/mp4" />
-                  Your browser does not support the video tag.
+                <video controls style={{ width: '100%', maxWidth: '500px', height: 'auto', borderRadius: '4px' }}>
+                  <source src={video.filename} type="video/mp4" />
+                    Your browser does not support the video tag.
                 </video>
               </div>
             </div>
