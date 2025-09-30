@@ -1,0 +1,12 @@
+# Server
+server/node_modules/
+server/.env
+server/uploads/
+
+# Client  
+client/node_modules/
+client/build/
+
+# Other
+.DS_Store
+*.log
