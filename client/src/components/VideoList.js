@@ -96,7 +96,7 @@ const VideoList = ({ videos, user }) => {
                     borderRadius: '4px'
                   }}
                 >
-                  <source src={`http://localhost:5000/uploads/${video.filename}`} type="video/mp4" />
+                  <source src={`${process.env.REACT_APP_API_URL.replace('/api', '')}/uploads/${video.filename}`} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
