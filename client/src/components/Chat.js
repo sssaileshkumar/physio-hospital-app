@@ -42,7 +42,13 @@ const Chat = ({ user }) => {
   // Initialize socket connection
   useEffect(() => {
     //const newSocket = io('http://localhost:5000');
-    const newSocket = io(process.env.REACT_APP_API_URL);
+    const backendUrl = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000';
+    const newSocket = io(backendUrl, {
+    transports: ['websocket', 'polling'],
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000
+    });
     setSocket(newSocket);
 
     // Join user's room
