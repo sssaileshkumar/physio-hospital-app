@@ -8,15 +8,27 @@ const Message = require('./models/Message');
 
 const app = express();
 const server = http.createServer(app);
+
+// Middleware
+
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://physio-frontend.onrender.com" // YOUR ACTUAL FRONTEND URL
+  ],
+  credentials: true
+}));
+
+// Also update Socket.io CORS:
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://physio-frontend.onrender.com" // YOUR ACTUAL FRONTEND URL
+    ],
     methods: ["GET", "POST"]
   }
 });
-
-// Middleware
-app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
