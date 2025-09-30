@@ -40,7 +40,7 @@ const videoSchema = new mongoose.Schema({
 module.exports = mongoose.model('Video', videoSchema);
 */
 
-/*last working version
+//last working version
 const mongoose = require('mongoose');
 
 const videoSchema = new mongoose.Schema({
@@ -86,48 +86,5 @@ const videoSchema = new mongoose.Schema({
 videoSchema.index({ uploadedBy: 1 });
 videoSchema.index({ assignedTo: 1 });
 videoSchema.index({ modules: 1 });
-
-module.exports = mongoose.model('Video', videoSchema);
-*/
-
-const mongoose = require('mongoose');
-
-const videoSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true
-  },
-  description: String,
-  filename: {
-    type: String,
-    required: true
-  },
-  videoUrl: {  // Add this field
-    type: String
-  },
-  duration: {
-    type: Number,
-    default: 0
-  },
-  order: {
-    type: Number,
-    default: 0
-  },
-  assignedTo: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  uploadedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  modules: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Module'
-  }]
-}, {
-  timestamps: true
-});
 
 module.exports = mongoose.model('Video', videoSchema);

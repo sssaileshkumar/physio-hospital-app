@@ -410,6 +410,7 @@ router.post('/upload', auth, upload.single('video'), async (req, res) => {
       title,
       description: description || '',
       filename: req.file.path, // Cloudinary URL
+      videoUrl: req.file.path,
       assignedTo: assignedUsers,
       uploadedBy: req.user.userId,
       modules: []
