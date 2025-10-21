@@ -514,6 +514,8 @@ const TabButton = ({ active, onClick, icon, label }) => (
     <span>{label}</span>
   </button>
 );
+*/
+
 // client/src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -624,7 +626,7 @@ const Dashboard = ({ user, onLogout }) => {
     <div className="dashboard-container">
       <div className="dashboard-content">
         
-        {/* Header */}
+        
         <div className="dashboard-header">
           <div className="header-content">
             <h1 className="greeting">
