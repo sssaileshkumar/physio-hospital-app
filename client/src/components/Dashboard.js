@@ -514,9 +514,6 @@ const TabButton = ({ active, onClick, icon, label }) => (
     <span>{label}</span>
   </button>
 );
-
-export default Dashboard;
-*/
 // client/src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -614,7 +611,7 @@ const Dashboard = ({ user, onLogout }) => {
   };
 
   // Stats card component
-  const StatCard = ({ title, value, icon, color = '#667eea', subtitle }) => (
+  const StatCard = ({ title, value, icon, color = '#2E8B57', subtitle }) => (
     <div className="stat-card">
       <div className="stat-icon">{icon}</div>
       <div className="stat-value" style={{ color }}>{value}</div>
@@ -668,25 +665,25 @@ const Dashboard = ({ user, onLogout }) => {
               title="Total Modules"
               value={stats.totalModules}
               icon="📚"
-              color="#64ffda"
+              color="#2E8B57"
             />
             <StatCard
               title="Individual Videos"
               value={stats.totalVideos}
               icon="🎥"
-              color="#667eea"
+              color="#1E88E5"
             />
             <StatCard
               title="Active Patients"
               value={stats.totalPatients}
               icon="👥"
-              color="#ff6b9d"
+              color="#7E57C2"
             />
             <StatCard
               title="Platform Status"
               value="Active"
               icon="🟢"
-              color="#28a745"
+              color="#2E8B57"
               subtitle="All systems operational"
             />
           </div>
@@ -875,9 +872,9 @@ const Dashboard = ({ user, onLogout }) => {
         .dashboard-container {
           min-height: 100vh;
           background: 
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.08) 0%, transparent 50%),
-            var(--dark-bg, #0f0f23);
+            radial-gradient(circle at 20% 80%, rgba(46, 139, 87, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(30, 136, 229, 0.05) 0%, transparent 50%),
+            #0F172A;
           padding: 20px;
           position: relative;
         }
@@ -893,29 +890,25 @@ const Dashboard = ({ user, onLogout }) => {
           justify-content: space-between;
           align-items: center;
           margin-bottom: 30px;
-          background: rgba(26, 26, 46, 0.8);
+          background: rgba(30, 41, 59, 0.8);
           backdrop-filter: blur(20px);
           padding: 25px;
           border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           transition: all 0.3s ease;
         }
 
         .dashboard-header:hover {
-          border-color: rgba(100, 255, 218, 0.2);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+          border-color: rgba(46, 139, 87, 0.3);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
         }
 
         .greeting {
           margin: 0 0 8px 0;
-          color: var(--text-primary, #e6e6ff);
+          color: #F8FAFC;
           font-size: 28px;
           font-weight: 700;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
         }
 
         .greeting-emoji {
@@ -925,13 +918,13 @@ const Dashboard = ({ user, onLogout }) => {
 
         .welcome-text {
           margin: 0;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           font-size: 16px;
           font-weight: 400;
         }
 
         .role-highlight {
-          color: var(--accent, #64ffda);
+          color: #2E8B57;
           font-weight: 600;
         }
 
@@ -948,21 +941,21 @@ const Dashboard = ({ user, onLogout }) => {
 
         .user-label {
           font-size: 14px;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           margin-bottom: 4px;
         }
 
         .user-email {
           font-size: 16px;
           font-weight: 600;
-          color: var(--text-primary, #e6e6ff);
+          color: #F8FAFC;
         }
 
         .logout-btn {
           padding: 12px 20px;
-          background: linear-gradient(135deg, #ff6b9d 0%, #ee5a87 100%);
-          color: white;
-          border: none;
+          background: rgba(220, 38, 38, 0.1);
+          color: #EF4444;
+          border: 1px solid rgba(220, 38, 38, 0.3);
           border-radius: 10px;
           cursor: pointer;
           font-size: 14px;
@@ -971,12 +964,12 @@ const Dashboard = ({ user, onLogout }) => {
           display: flex;
           align-items: center;
           gap: 8px;
-          box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
         }
 
         .logout-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+          background: rgba(220, 38, 38, 0.2);
+          border-color: rgba(220, 38, 38, 0.5);
+          transform: translateY(-1px);
         }
 
         /* Stats Grid */
@@ -988,9 +981,9 @@ const Dashboard = ({ user, onLogout }) => {
         }
 
         .stat-card {
-          background: rgba(26, 26, 46, 0.8);
+          background: rgba(30, 41, 59, 0.8);
           backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 16px;
           padding: 25px;
           text-align: center;
@@ -1007,7 +1000,7 @@ const Dashboard = ({ user, onLogout }) => {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
           transition: left 0.6s;
         }
 
@@ -1016,49 +1009,45 @@ const Dashboard = ({ user, onLogout }) => {
         }
 
         .stat-card:hover {
-          transform: translateY(-5px);
-          border-color: rgba(100, 255, 218, 0.3);
-          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+          transform: translateY(-3px);
+          border-color: rgba(46, 139, 87, 0.3);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .stat-icon {
           font-size: 32px;
           margin-bottom: 15px;
-          filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
+          opacity: 0.9;
         }
 
         .stat-value {
           font-size: 32px;
           font-weight: 800;
           margin-bottom: 8px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
         }
 
         .stat-title {
           font-size: 14px;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           font-weight: 500;
           margin-bottom: 5px;
         }
 
         .stat-subtitle {
           font-size: 12px;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           opacity: 0.8;
         }
 
         /* Tabs */
         .tabs-container {
           margin-bottom: 30px;
-          background: rgba(26, 26, 46, 0.8);
+          background: rgba(30, 41, 59, 0.8);
           backdrop-filter: blur(20px);
           border-radius: 16px;
           padding: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           display: flex;
           flex-wrap: wrap;
           gap: 4px;
@@ -1066,18 +1055,18 @@ const Dashboard = ({ user, onLogout }) => {
 
         /* Content Area */
         .content-area {
-          background: rgba(26, 26, 46, 0.8);
+          background: rgba(30, 41, 59, 0.8);
           backdrop-filter: blur(20px);
           border-radius: 16px;
           padding: 30px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           min-height: 500px;
           transition: all 0.3s ease;
         }
 
         .content-area:hover {
-          border-color: rgba(100, 255, 218, 0.2);
+          border-color: rgba(46, 139, 87, 0.2);
         }
 
         .tab-content {
@@ -1100,7 +1089,7 @@ const Dashboard = ({ user, onLogout }) => {
 
         .tab-title {
           margin: 0 0 8px 0;
-          color: var(--text-primary, #e6e6ff);
+          color: #F8FAFC;
           font-size: 24px;
           font-weight: 700;
           display: flex;
@@ -1110,23 +1099,23 @@ const Dashboard = ({ user, onLogout }) => {
 
         .tab-icon {
           font-size: 28px;
-          filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.4));
+          opacity: 0.9;
         }
 
         .tab-description {
           margin: 0;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           font-size: 16px;
           line-height: 1.5;
         }
 
         .video-count {
           font-size: 14px;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           background: rgba(255, 255, 255, 0.05);
           padding: 8px 16px;
           border-radius: 10px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         /* Footer */
@@ -1134,9 +1123,9 @@ const Dashboard = ({ user, onLogout }) => {
           text-align: center;
           margin-top: 40px;
           padding: 25px;
-          color: var(--text-secondary, #a0a0c0);
+          color: #94A3B8;
           font-size: 14px;
-          background: rgba(26, 26, 46, 0.6);
+          background: rgba(30, 41, 59, 0.6);
           backdrop-filter: blur(10px);
           border-radius: 12px;
           border: 1px solid rgba(255, 255, 255, 0.05);
@@ -1152,7 +1141,7 @@ const Dashboard = ({ user, onLogout }) => {
         }
 
         .heart {
-          color: #ff6b9d;
+          color: #EF4444;
           animation: heartbeat 2s infinite;
         }
 
@@ -1209,9 +1198,9 @@ const TabButton = ({ active, onClick, icon, label }) => (
     <style jsx>{`
       .tab-button {
         padding: 14px 20px;
-        background: ${active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'transparent'};
-        color: ${active ? 'white' : 'var(--text-secondary, #a0a0c0)'};
-        border: none;
+        background: ${active ? 'rgba(46, 139, 87, 0.2)' : 'transparent'};
+        color: ${active ? '#2E8B57' : '#94A3B8'};
+        border: ${active ? '1px solid rgba(46, 139, 87, 0.3)' : '1px solid transparent'};
         border-radius: 12px;
         cursor: pointer;
         font-size: 14px;
@@ -1232,7 +1221,7 @@ const TabButton = ({ active, onClick, icon, label }) => (
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
         transition: left 0.5s;
       }
 
@@ -1241,14 +1230,14 @@ const TabButton = ({ active, onClick, icon, label }) => (
       }
 
       .tab-button:hover {
-        background: ${active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.05)'};
-        color: ${active ? 'white' : 'var(--text-primary, #e6e6ff)'};
-        transform: translateY(-2px);
+        background: ${active ? 'rgba(46, 139, 87, 0.25)' : 'rgba(255, 255, 255, 0.05)'};
+        color: ${active ? '#2E8B57' : '#F8FAFC'};
+        border-color: ${active ? 'rgba(46, 139, 87, 0.4)' : 'rgba(255, 255, 255, 0.1)'};
+        transform: translateY(-1px);
       }
 
       .tab-button-icon {
         font-size: 16px;
-        filter: ${active ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : 'none'};
       }
 
       .tab-button-label {
