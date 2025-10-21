@@ -1,3 +1,4 @@
+/*
 .App {
   text-align: center;
 }
@@ -36,3 +37,304 @@
     transform: rotate(360deg);
   }
 }
+
+*/
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --dark-bg: #0f0f23;
+  --darker-bg: #0a0a1a;
+  --card-bg: #1a1a2e;
+  --accent: #64ffda;
+  --text-primary: #e6e6ff;
+  --text-secondary: #a0a0c0;
+  --neon-glow: 0 0 20px rgba(100, 255, 218, 0.5);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--dark-bg);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.App {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+    var(--darker-bg);
+  position: relative;
+}
+
+/* Animated background particles */
+.App::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #64ffda, transparent),
+    radial-gradient(2px 2px at 40px 70px, #667eea, transparent),
+    radial-gradient(1px 1px at 90px 40px, #ff6b9d, transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.3;
+  animation: float 20s infinite linear;
+  z-index: -1;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-200px, -200px); }
+}
+
+.App-header {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Modern logo design */
+.App-logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 2rem;
+  filter: drop-shadow(var(--neon-glow));
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.App-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 30px rgba(100, 255, 218, 0.8));
+}
+
+/* Logo animation */
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-container::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Main content area */
+.content {
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+  background: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.content:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Typography */
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* Modern button styles */
+.cta-button {
+  background: var(--primary-gradient);
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 25px rgba(102, 126, 234, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* App link modern style */
+.App-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.App-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.App-link:hover::after {
+  width: 100%;
+}
+
+.App-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+}
+
+/* Feature grid */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(100, 255, 218, 0.3);
+  box-shadow: var(--neon-glow);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .App-header {
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .content {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.loading {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(90deg, #1a1a2e 25%, #2a2a3e 50%, #1a1a2e 75%);
+  background-size: 200px 100%;
+}
+
+
